@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 
 public class Window extends JFrame {
     private JPanel panel;
+    private JLabel counterLabel;
     
     public Window() {
         setWindow();
@@ -38,14 +39,14 @@ public class Window extends JFrame {
     }
     
     private void createCounterLabel() {
-        JLabel counter = new JLabel("00:00", SwingConstants.CENTER);
-        counter.setBounds(50, 50, 400, 125);
-        counter.setForeground(Color.RED);
+        counterLabel = new JLabel("00:00", SwingConstants.CENTER);
+        counterLabel.setBounds(50, 50, 400, 125);
+        counterLabel.setForeground(Color.RED);
         
         Font font = new Font("arial", Font.BOLD, 150);
-        counter.setFont(font);
+        counterLabel.setFont(font);
         
-        panel.add(counter);
+        panel.add(counterLabel);
     }
     
     private void createButtons() {
@@ -68,17 +69,24 @@ public class Window extends JFrame {
         btnFinish.setEnabled(false);
         btnFinish.setMnemonic('f');
         panel.add(btnFinish);
-
         
-        // ACTION LISTENERS
+        addButtonFunctionality(btnStart, btnPause, btnFinish);
+    }
+    
+    private void addButtonFunctionality(JButton btnStart, JButton btnPause, JButton btnFinish) {
+        Counter counter = new Counter(counterLabel);
+        
+        // Start
         ActionListener clickStart = (ActionEvent e) -> {
             btnStart.setEnabled(false);
             btnPause.setEnabled(true);
             btnFinish.setEnabled(true);
+            
+            counter.start();
         };
         btnStart.addActionListener(clickStart);
         
-        
+        // Pause
         ActionListener clickPause = (ActionEvent e) -> {
             btnStart.setEnabled(true);
             btnPause.setEnabled(false);
@@ -86,7 +94,7 @@ public class Window extends JFrame {
         };
         btnPause.addActionListener(clickPause);
         
-        
+        // Finish
         ActionListener clickFinish = (ActionEvent e) -> {
             btnStart.setEnabled(true);
             btnPause.setEnabled(false);
