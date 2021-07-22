@@ -91,6 +91,8 @@ public class Window extends JFrame {
             btnStart.setEnabled(true);
             btnPause.setEnabled(false);
             btnFinish.setEnabled(true);
+            
+            counter.pause();
         };
         btnPause.addActionListener(clickPause);
         
@@ -99,6 +101,8 @@ public class Window extends JFrame {
             btnStart.setEnabled(true);
             btnPause.setEnabled(false);
             btnFinish.setEnabled(false);
+            
+            counter.finish();
         };
         btnFinish.addActionListener(clickFinish);
     }
