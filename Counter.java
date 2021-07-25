@@ -1,5 +1,6 @@
 package pomodoroplus;
 
+import java.awt.Color;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JLabel;
@@ -10,21 +11,37 @@ public class Counter {
     private TimerTask timerTask;
     private short minutes;
     private byte seconds;
+    private boolean isFocusTime;
     
     
     public Counter(JLabel counterLabel) {
         this.counterLabel = counterLabel;
-        minutes = 0;
-        seconds = 0;
         timer = new Timer();
+        isFocusTime = true;
+        setUpTime();
     }
     
-    private String makeTimer() {
+    private void setUpTime() {
+        minutes = 14;
+        seconds = 0;
+        renderCounter("00:00");
+    }
+    
+    private void makeTimerUp() {
         if(++seconds == 60) {
             minutes++;
             seconds = 0;
         }
-        
+    }
+    
+    private void makeTimerDown() {
+        if(--seconds == -1) {
+            minutes--;
+            seconds = 59;
+        }
+    }
+    
+    private String makeTimeToString(){
         String min = String.valueOf(minutes);
         if(min.length() == 1) 
             min = "0" + min;
@@ -43,7 +60,9 @@ public class Counter {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                String time = makeTimer();
+                if(isFocusTime) makeTimerUp();
+                else makeTimerDown();
+                String time = makeTimeToString();
                 renderCounter(time);
             }
         };
@@ -57,9 +76,32 @@ public class Counter {
     
     public void finish() {
         pause(); 
-        minutes = 0;
-        seconds = 0;
-        renderCounter("00:00");
+        if(isFocusTime) {
+            byte restTime[] = makeRestTime();
+            minutes = restTime[0];
+            seconds = restTime[1];
+            
+            String time = makeTimeToString();
+            renderCounter(time);
+            
+            counterLabel.setForeground(Color.GREEN);
+        } else {
+            setUpTime();
+            counterLabel.setForeground(Color.RED);
+        }
+        isFocusTime = !isFocusTime;
+    }
+    
+    private byte[] makeRestTime() {
+        byte restMinutes = (byte) (minutes / 5);
+        byte restSeconds = (byte) (minutes % 5);
+        restSeconds *= 10;
+        
+        byte restTime[] = new byte[2];
+        restTime[0] = restMinutes;
+        restTime[1] = restSeconds;
+        
+        return restTime;
     }
     
 }
