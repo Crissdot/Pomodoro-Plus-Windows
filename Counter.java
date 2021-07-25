@@ -22,7 +22,7 @@ public class Counter {
     }
     
     private void setUpTime() {
-        minutes = 14;
+        minutes = 0;
         seconds = 0;
         renderCounter("00:00");
     }
@@ -39,6 +39,7 @@ public class Counter {
             minutes--;
             seconds = 59;
         }
+        if(minutes == 0 && seconds == 0) pause();
     }
     
     private String makeTimeToString(){
