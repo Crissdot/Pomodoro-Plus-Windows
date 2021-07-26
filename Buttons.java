@@ -4,15 +4,24 @@ import java.awt.Font;
 import javax.swing.JButton;
 
 public class Buttons {
+    private static Buttons buttons = null;
+    
     private final byte left = 75;
     private final short width = 350;
     private final byte height = 50;
     
     private final JButton btnStart;
     private final JButton btnPause;
-    private final JButton btnFinish ;
+    private final JButton btnFinish;
     
-    public Buttons() {
+    public static Buttons getInstance() {
+        if(buttons == null)
+            buttons = new Buttons();
+        
+        return buttons;
+    }
+    
+    private Buttons() {
         btnStart = createButtons("<HTML><U>S</U>TART</HTML>", (short) 215, true, 's');
         btnPause = createButtons("<HTML><U>P</U>AUSE</HTML>", (short) 290, false, 'p');
         btnFinish = createButtons("<HTML><U>F</U>INISH</HTML>", (short) 365, false, 'f');

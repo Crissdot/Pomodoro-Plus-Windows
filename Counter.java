@@ -1,11 +1,15 @@
 package pomodoroplus;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class Counter {
+    private static Counter counter = null;
+    
     private final JLabel counterLabel;
     private final Timer timer;
     private TimerTask timerTask;
@@ -13,12 +17,31 @@ public class Counter {
     private byte seconds;
     private boolean isFocusTime;
     
+    public static Counter getInstance() {
+        if(counter == null)
+            counter = new Counter();
+        
+        return counter;
+    }
     
-    public Counter(JLabel counterLabel) {
-        this.counterLabel = counterLabel;
+    private Counter() {
+        counterLabel = createCounterLabel();
         timer = new Timer();
         isFocusTime = true;
         setUpTime();
+    }
+    
+    private JLabel createCounterLabel() {
+        JLabel label = new JLabel("00:00", SwingConstants.CENTER);
+        label.setBounds(50, 50, 400, 125);
+        label.setForeground(Color.RED);
+        label.setFont(new Font("arial", Font.BOLD, 150));
+        
+        return label;
+    }
+
+    public JLabel getCounterLabel() {
+        return counterLabel;
     }
     
     private void setUpTime() {

@@ -1,18 +1,16 @@
 package pomodoroplus;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public class Window extends JFrame {
     private JPanel panel;
-    private JLabel counterLabel;
+    private Counter counter;
     private Buttons buttons;
     
     public Window() {
@@ -40,18 +38,14 @@ public class Window extends JFrame {
     }
     
     private void createCounterLabel() {
-        counterLabel = new JLabel("00:00", SwingConstants.CENTER);
-        counterLabel.setBounds(50, 50, 400, 125);
-        counterLabel.setForeground(Color.RED);
+        counter = Counter.getInstance();
         
-        Font font = new Font("arial", Font.BOLD, 150);
-        counterLabel.setFont(font);
-        
+        JLabel counterLabel = counter.getCounterLabel();
         panel.add(counterLabel);
     }
     
     private void createButtons() {
-        buttons = new Buttons();
+        buttons = Buttons.getInstance();
         
         JButton btnStart = buttons.getBtnStart();
         JButton btnPause = buttons.getBtnPause();
@@ -65,8 +59,6 @@ public class Window extends JFrame {
     }
     
     private void addButtonFunctionality(JButton btnStart, JButton btnPause, JButton btnFinish) {
-        Counter counter = new Counter(counterLabel);
-        
         // Start
         ActionListener clickStart = (ActionEvent e) -> {
             buttons.startToggle();
