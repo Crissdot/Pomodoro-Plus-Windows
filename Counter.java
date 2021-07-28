@@ -9,6 +9,7 @@ import javax.swing.SwingConstants;
 
 public class Counter {
     private static Counter counter = null;
+    private final Buttons buttons;
     
     private final JLabel counterLabel;
     private final Timer timer;
@@ -26,6 +27,7 @@ public class Counter {
     
     private Counter() {
         counterLabel = createCounterLabel();
+        buttons = Buttons.getInstance();
         timer = new Timer();
         isFocusTime = true;
         setUpTime();
@@ -62,7 +64,7 @@ public class Counter {
             minutes--;
             seconds = 59;
         }
-        if(minutes == 0 && seconds == 0) pause();
+        if(minutes == 0 && seconds == 0) finish();
     }
     
     private String makeTimeToString(){
@@ -109,9 +111,14 @@ public class Counter {
             renderCounter(time);
             
             counterLabel.setForeground(Color.GREEN);
+            
+            start();
+            buttons.startToggle();
         } else {
             setUpTime();
             counterLabel.setForeground(Color.RED);
+            
+            buttons.finishToggle();
         }
         isFocusTime = !isFocusTime;
     }
