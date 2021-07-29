@@ -125,8 +125,10 @@ public class Counter {
             start();
         } else {
             renderCounter("00:00");
-            if(minutes == 0 && seconds == 0)
+            if(minutes == 0 && seconds == 0) {
+                MediaPlayer.playSound("finishTime.wav");
                 JOptionPane.showMessageDialog(null, "Time is up");
+            }
             
             setUpTime();
             counterLabel.setForeground(Color.RED);
