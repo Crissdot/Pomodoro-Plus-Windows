@@ -61,21 +61,19 @@ public class Window extends JFrame {
     private void addButtonFunctionality(JButton btnStart, JButton btnPause, JButton btnFinish) {
         // Start
         ActionListener clickStart = (ActionEvent e) -> {
-            buttons.startToggle();
             counter.start();
         };
         btnStart.addActionListener(clickStart);
         
         // Pause
         ActionListener clickPause = (ActionEvent e) -> {
-            buttons.pauseToggle();
             counter.pause();
+            buttons.pauseToggle();
         };
         btnPause.addActionListener(clickPause);
         
         // Finish
         ActionListener clickFinish = (ActionEvent e) -> {
-            buttons.finishToggle();
             counter.finish();
         };
         btnFinish.addActionListener(clickFinish);

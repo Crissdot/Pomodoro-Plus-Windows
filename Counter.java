@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 public class Counter {
@@ -93,6 +94,7 @@ public class Counter {
             }
         };
         timer.scheduleAtFixedRate(timerTask, 1000, 1000);
+        buttons.startToggle();
     }
     
     public void pause() {
@@ -101,8 +103,16 @@ public class Counter {
     }
     
     public void finish() {
-        pause(); 
+        pause();
         if(isFocusTime) {
+            if(minutes < 5) {
+                JOptionPane.showMessageDialog(null, "At least 5 minutes to get rest time");
+                setUpTime();
+                buttons.finishToggle();
+                return;
+            }
+            JOptionPane.showMessageDialog(null, "Time to rest");
+            
             byte restTime[] = makeRestTime();
             minutes = restTime[0];
             seconds = restTime[1];
@@ -113,8 +123,11 @@ public class Counter {
             counterLabel.setForeground(Color.GREEN);
             
             start();
-            buttons.startToggle();
         } else {
+            renderCounter("00:00");
+            if(minutes == 0 && seconds == 0)
+                JOptionPane.showMessageDialog(null, "Time is up");
+            
             setUpTime();
             counterLabel.setForeground(Color.RED);
             
